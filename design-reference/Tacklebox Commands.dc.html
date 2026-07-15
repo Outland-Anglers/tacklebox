@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page-bg:#F7F4EC; --card-bg:#FFFFFF; --card-border:#E8E1D2;
+    --text-primary:#16323B; --text-secondary:#5B6668;
+    --chip-bg:#EAE2D2; --chip-text:#7A5A22; --code-bg:#F7F4EC; --code-bg-strong:#EAE2D2;
+    --admin-code-bg:#F0E6D3; --admin-code-text:#7A5A22; --callout-bg:#F0E6D3; --callout-text:#7A5A22;
+    --text-body:#3E4C4F; --flow-player:#2F5F6E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --page-bg:#10191C; --card-bg:#182428; --card-border:#28393D;
+      --text-primary:#F0EBDF; --text-secondary:#A6B4B6;
+      --chip-bg:#23343A; --chip-text:#E0AE5C; --code-bg:#1B2A2E; --code-bg-strong:#23343A;
+      --admin-code-bg:#2A2318; --admin-code-text:#E0AE5C; --callout-bg:#2A2318; --callout-text:#E0AE5C;
+      --text-body:#C9D3D4; --flow-player:#7FB8C4;
+    }
+  }
+  body{margin:0;background:var(--page-bg);font-family:'Work Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  a{color:#2F5F6E;text-decoration:none}
+  a:hover{color:#D89B3C}
+  h1,h2,h3,h4{font-family:'Oswald',system-ui,sans-serif;margin:0}
+  code{font-family:'JetBrains Mono',monospace}
+</style>
+</helmet>
+
+<div style="position:sticky;top:0;z-index:50;background:#16323B;border-bottom:1px solid rgba(255,255,255,0.08)">
+  <div style="max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="Tacklebox Landing.dc.html" style="display:flex;align-items:center;gap:10px">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="15.5" cy="5.5" r="2.7" stroke="#F7F4EC" stroke-width="1.8"/><path d="M15.5 8.2V13.5C15.5 16.5 13 18.8 10 18.5C7.4 18.2 5.6 15.7 6.3 13.2C6.7 11.8 7.6 11 8.5 10.2" stroke="#F7F4EC" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span style="font-family:'Oswald',sans-serif;font-weight:700;font-size:17px;color:#F7F4EC;letter-spacing:0.5px">TACKLEBOX</span>
+      <span style="color:#7FA3AB;font-size:13px;font-weight:500">/ Commands</span>
+    </a>
+    <a href="{{ inviteUrl }}" target="_blank" rel="noopener" style="background:{{ accentColor }};color:#16323B;font-weight:600;font-size:14px;padding:10px 18px;border-radius:6px;white-space:nowrap">Add to Discord</a>
+  </div>
+</div>
+
+<div style="max-width:1240px;margin:0 auto;padding:40px 24px 100px;display:grid;grid-template-columns:220px 1fr;gap:48px;align-items:start" class="tb-layout">
+
+  <div style="position:sticky;top:78px;display:flex;flex-direction:column;gap:2px" class="tb-sidebar">
+    <a href="#party" style="{{ navStyle.party }}">Party Manager</a>
+    <a href="#loot" style="{{ navStyle.loot }}">Loot Split</a>
+    <a href="#regear" style="{{ navStyle.regear }}">Regear Timer</a>
+    <a href="#clock" style="{{ navStyle.clock }}">World Clock</a>
+    <a href="#bank" style="{{ navStyle.bank }}">Bank</a>
+    <a href="#admin" style="{{ navStyle.admin }}">Admin</a>
+    <a href="#permissions" style="{{ navStyle.permissions }}">Permissions</a>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:64px;min-width:0">
+
+    <div>
+      <h1 style="font-size:38px;color:var(--text-primary);font-weight:700;margin-bottom:10px">Command Reference</h1>
+      <p style="font-size:16px;color:var(--text-secondary);max-width:60ch;line-height:1.6">Every Tacklebox command, grouped by feature, with separate walkthroughs for players and officers. Commands run as Discord slash commands — type <code style="background:var(--code-bg-strong);padding:2px 6px;border-radius:4px">/</code> in any channel the bot can see.</p>
+    </div>
+
+    <section id="party" style="scroll-margin-top:78px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px"><h2 style="font-size:26px;color:var(--text-primary);font-weight:600">Party Manager</h2><code style="background:var(--chip-bg);color:var(--chip-text);font-size:13px;padding:3px 9px;border-radius:5px">/party</code></div>
+      <p style="color:var(--text-secondary);font-size:15px;line-height:1.6;max-width:70ch;margin-bottom:20px">Connects a Google Sheet to Discord for party signups. Officers start a party from a sheet URL, players sign up for weapons/roles via buttons, and officers assign roles in the sheet and sync them back to Discord.</p>
+
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px;margin-bottom:20px">
+        <div style="font-size:12px;font-weight:600;color:var(--text-secondary);letter-spacing:1px;margin-bottom:12px">COMMANDS</div>
+        <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/party start &lt;url&gt;</code><span style="font-size:14px;color:var(--text-secondary)">Start a new party signup from a Google Sheet URL. Cap of 10 active parties per server; parties auto-expire after 10 days.</span></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px" class="tb-flowgrid">
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px">
+          <div style="font-size:13px;font-weight:600;color:var(--flow-player);margin-bottom:12px">PLAYER FLOW</div>
+          <ol style="margin:0;padding-left:18px;color:var(--text-body);font-size:14px;line-height:1.85">
+            <li>Click <strong>Sign Up</strong>, select the weapon(s) you can play, add notes if needed (low spec, early leave). Written to the sheet automatically.</li>
+            <li>Click Sign Up again any time to update your selections.</li>
+            <li>Click <strong>Un-Sign Up</strong> to remove your signup from the sheet and party.</li>
+            <li>Click <strong>View Loadout</strong> after officers sync to see your assigned weapon and required equipment.</li>
+          </ol>
+        </div>
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px">
+          <div style="font-size:13px;font-weight:600;color:var(--chip-text);margin-bottom:12px">OFFICER FLOW</div>
+          <ol style="margin:0;padding-left:18px;color:var(--text-body);font-size:14px;line-height:1.85">
+            <li>Run <code style="font-size:12.5px">/party start &lt;sheet URL&gt;</code>. Pick a tab if the sheet has multiple.</li>
+            <li>Click <strong>Add Details</strong> for event title, UTC time, meeting place, gear, and description.</li>
+            <li>Copy signups from Column A into Column F next to their assigned weapon (names must match exactly).</li>
+            <li>Click <strong>Sync</strong> to pull Column F into the embed. Repeat as your roster changes.</li>
+            <li>Click <strong>End Party</strong> to close signups and remove buttons. Sync/Details/End can be used by the starter or anyone with Manage Server.</li>
+          </ol>
+        </div>
+      </div>
+
+      <button onClick="{{ togglePartySheet }}" style="background:none;border:none;color:var(--flow-player);font-weight:600;font-size:13.5px;padding:0;cursor:pointer;display:flex;align-items:center;gap:6px;margin-bottom:12px">
+        <span>{{ partySheetArrow }}</span> Sheet setup &amp; column layout
+      </button>
+      <sc-if value="{{ partySheetOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px;font-size:14px;color:var(--text-body);line-height:1.75">
+          <p style="margin:0 0 10px">Copy the <a href="https://docs.google.com/spreadsheets/d/1b-jZ0mVhxWnB1H5FfGaDvcJO2D9vmJLrg5mQcMthyeY/edit?gid=0#gid=0" target="_blank" rel="noopener">sheet template</a> (File → Make a copy) and share it with the bot's service account — <code style="font-size:12.5px">tacklebox-bot@tacklebox-489703.iam.gserviceaccount.com</code> — as <strong>Editor</strong>.</p>
+          <p style="margin:0 0 6px"><strong>A–C</strong> — Player signups, written automatically. Don't edit.</p>
+          <p style="margin:0 0 6px"><strong>D</strong> — Role (Tank, Healer, DPS...). <strong>E</strong> — Weapon name, one per row.</p>
+          <p style="margin:0 0 6px"><strong>F</strong> — Assignments. Paste player names exactly as they appear in Column A.</p>
+          <p style="margin:0 0 10px"><strong>G+</strong> — Equipment loadout; header row names the slot, cells list required items. Shown to players via View Loadout.</p>
+          <p style="margin:0">⚠️ Don't rearrange or delete columns A–F — the bot reads fixed column positions.</p>
+        </div>
+      </sc-if>
+    </section>
+
+    <section id="loot" style="scroll-margin-top:78px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px"><h2 style="font-size:26px;color:var(--text-primary);font-weight:600">Loot Split</h2><code style="background:var(--chip-bg);color:var(--chip-text);font-size:13px;padding:3px 9px;border-radius:5px">/loot</code></div>
+      <p style="color:var(--text-secondary);font-size:15px;line-height:1.6;max-width:70ch;margin-bottom:20px">Splits loot silver evenly among party members. Start the split, members react to join, officers can adjust the player list, and the bot calculates each player's cut after repairs and guild tax.</p>
+
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px;margin-bottom:20px">
+        <div style="font-size:12px;font-weight:600;color:var(--text-secondary);letter-spacing:1px;margin-bottom:12px">COMMANDS</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/loot start</code><span style="font-size:14px;color:var(--text-secondary)">Start a new loot split message in the current channel. Optional: <code style="font-size:12.5px">voice_channel</code> for the Ping button, <code style="font-size:12.5px">tax_rate</code> to override the guild default.</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--admin-code-bg);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--admin-code-text)">/admin set_default_tax</code><span style="font-size:14px;color:var(--text-secondary)">Admin only. Sets the guild's default tax rate (0–100%). Default is 35% if never set.</span></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px" class="tb-flowgrid">
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px">
+          <div style="font-size:13px;font-weight:600;color:var(--flow-player);margin-bottom:12px">PLAYER FLOW</div>
+          <ol style="margin:0;padding-left:18px;color:var(--text-body);font-size:14px;line-height:1.85">
+            <li>React to the loot split embed with any emoji to join — one reaction counts, doesn't matter which emoji.</li>
+            <li>If an officer excludes you, you won't appear on the payout checklist even if you reacted.</li>
+            <li>If self-marking is enabled, click <strong>Mark Myself Paid</strong> once you're paid. Only works if you're unpaid and included.</li>
+          </ol>
+        </div>
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px">
+          <div style="font-size:13px;font-weight:600;color:var(--chip-text);margin-bottom:12px">OFFICER FLOW</div>
+          <ol style="margin:0;padding-left:18px;color:var(--text-body);font-size:14px;line-height:1.85">
+            <li>Run <code style="font-size:12.5px">/loot start</code>. The bot posts an embed; unique reactors are counted automatically.</li>
+            <li>Click <strong>Ping Voice Channel</strong> to @mention everyone in the selected voice channel.</li>
+            <li>Click <strong>Player Override</strong> (initiator only) to Add, Exclude, or Reset players — up to 40 per list, deduplicated against reactions.</li>
+            <li>Click <strong>Calculate</strong> and fill in Total Silver, Repair Cost, and Tax Rate (pre-filled with the guild default).</li>
+            <li>Run <code style="font-size:12.5px">/admin set_default_tax &lt;0–100&gt;</code> to change the default used by Calculate.</li>
+          </ol>
+        </div>
+      </div>
+
+      <button onClick="{{ toggleLootChecklist }}" style="background:none;border:none;color:var(--flow-player);font-weight:600;font-size:13.5px;padding:0;cursor:pointer;display:flex;align-items:center;gap:6px;margin-bottom:12px">
+        <span>{{ lootChecklistArrow }}</span> Payout checklist, in detail
+      </button>
+      <sc-if value="{{ lootChecklistOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px;font-size:14px;color:var(--text-body);line-height:1.75">
+          <p style="margin:0 0 10px">After Calculate runs, the bot posts a checklist with three states: ❌ unpaid, ✅ paid directly, 💰 deposited into bank.</p>
+          <p style="margin:0 0 10px"><strong>Marking paid</strong> — dropdowns below the checklist show only unpaid players; picking one marks them ✅. More than 25 unpaid adds more dropdowns.</p>
+          <p style="margin:0 0 10px"><strong>Bank</strong> — opens a private panel to deposit unpaid players' cuts into <code style="font-size:12.5px">/bank</code>; Bank All covers everyone unpaid.</p>
+          <p style="margin:0 0 10px"><strong>Reset</strong> — sends ✅/💰 players back to ❌; banked players have the split withdrawn from their balance.</p>
+          <p style="margin:0">⚠️ The checklist only responds for <strong>1 hour</strong> after posting. Bank changes already made stay in <code style="font-size:12.5px">/bank</code> — use <code style="font-size:12.5px">/bank update</code> for manual corrections.</p>
+        </div>
+      </sc-if>
+    </section>
+
+    <section id="regear" style="scroll-margin-top:78px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px"><h2 style="font-size:26px;color:var(--text-primary);font-weight:600">Regear Timer</h2><code style="background:var(--chip-bg);color:var(--chip-text);font-size:13px;padding:3px 9px;border-radius:5px">/regear</code></div>
+      <p style="color:var(--text-secondary);font-size:15px;line-height:1.6;max-width:70ch;margin-bottom:20px">Tracks gear reimbursements. Officers start a timer for a player, the player reacts to confirm they've collected their gear, and the bot notifies the officer to empty the chest — or marks it expired if time runs out.</p>
+
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px;margin-bottom:20px">
+        <div style="font-size:12px;font-weight:600;color:var(--text-secondary);letter-spacing:1px;margin-bottom:12px">COMMANDS</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/regear start &lt;user&gt; &lt;chest&gt;</code><span style="font-size:14px;color:var(--text-secondary)">e.g. <code style="font-size:12.5px">/regear start @Angler 3</code>. Each player can have up to 5 active timers.</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--admin-code-bg);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--admin-code-text)">/admin set_reminder &lt;hours&gt;</code><span style="font-size:14px;color:var(--text-secondary)">Admin only. 1–168h, must be less than expiry. Default: 24h.</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--admin-code-bg);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--admin-code-text)">/admin set_expiry &lt;hours&gt;</code><span style="font-size:14px;color:var(--text-secondary)">Admin only. 1–168h, must be greater than reminder. Default: 48h.</span></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="tb-flowgrid">
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px">
+          <div style="font-size:13px;font-weight:600;color:var(--flow-player);margin-bottom:12px">PLAYER FLOW</div>
+          <ol style="margin:0;padding-left:18px;color:var(--text-body);font-size:14px;line-height:1.85">
+            <li>The bot tags you with a message showing the chest number and how long you have to claim.</li>
+            <li>React with ✅ once you've picked up your gear — on the original message or a reminder, either works.</li>
+            <li>If you haven't reacted after the reminder window (default 24h), a follow-up reminder is sent.</li>
+            <li>If the timer expires before you react, it's marked expired — reach out to the officer directly.</li>
+          </ol>
+        </div>
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px">
+          <div style="font-size:13px;font-weight:600;color:var(--chip-text);margin-bottom:12px">OFFICER FLOW</div>
+          <ol style="margin:0;padding-left:18px;color:var(--text-body);font-size:14px;line-height:1.85">
+            <li>Run <code style="font-size:12.5px">/regear start &lt;@player&gt; &lt;chest&gt;</code>. The bot posts publicly and auto-adds a ✅ reaction.</li>
+            <li>If unclaimed after the reminder threshold, the bot sends a follow-up tagging the player again.</li>
+            <li>On claim, the bot edits the message to "✅ Regear Claimed" and tags you to empty the chest.</li>
+            <li>On expiry, the bot marks it "❌ Regear Expired" and tags you to empty the chest anyway.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="clock" style="scroll-margin-top:78px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px"><h2 style="font-size:26px;color:var(--text-primary);font-weight:600">World Clock</h2><code style="background:var(--chip-bg);color:var(--chip-text);font-size:13px;padding:3px 9px;border-radius:5px">/clock</code></div>
+      <p style="color:var(--text-secondary);font-size:15px;line-height:1.6;max-width:70ch;margin-bottom:6px">Creates and manages voice channels that display the current time in different time zones, updating every minute.</p>
+      <p style="color:var(--chip-text);font-size:13.5px;font-weight:600;margin-bottom:20px">Administrator permission required for every /clock command.</p>
+
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px;margin-bottom:20px">
+        <div style="font-size:12px;font-weight:600;color:var(--text-secondary);letter-spacing:1px;margin-bottom:12px">COMMANDS</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/clock setup</code><span style="font-size:14px;color:var(--text-secondary)">Creates 3 default clocks — UTC, Eastern, Pacific. Running again deletes and replaces existing clocks (confirmation required).</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/clock add</code><span style="font-size:14px;color:var(--text-secondary)">Opens a modal for a label and IANA time zone string (e.g. <code style="font-size:12.5px">Europe/London</code>).</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/clock replace</code><span style="font-size:14px;color:var(--text-secondary)">Pick a clock, then enter a new label and time zone.</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/clock remove</code><span style="font-size:14px;color:var(--text-secondary)">Pick a clock from the dropdown to delete its voice channel.</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/clock list</code><span style="font-size:14px;color:var(--text-secondary)">Lists all configured clocks and their time zones.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="bank" style="scroll-margin-top:78px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px"><h2 style="font-size:26px;color:var(--text-primary);font-weight:600">Bank</h2><code style="background:var(--chip-bg);color:var(--chip-text);font-size:13px;padding:3px 9px;border-radius:5px">/bank</code></div>
+      <p style="color:var(--text-secondary);font-size:15px;line-height:1.6;max-width:70ch;margin-bottom:20px">Tracks player silver balances per server. Balances can go negative. All responses are visible only to whoever ran the command.</p>
+
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px">
+        <div style="font-size:12px;font-weight:600;color:var(--text-secondary);letter-spacing:1px;margin-bottom:12px">COMMANDS</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/bank_view &lt;user&gt;</code><span style="font-size:14px;color:var(--text-secondary)">Shows a player's current silver balance.</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--admin-code-bg);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--admin-code-text)">/bank update</code><span style="font-size:14px;color:var(--text-secondary)">Admin only. Adjusts a player's balance by adding or subtracting silver.</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--admin-code-bg);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--admin-code-text)">/bank payout &lt;user&gt;</code><span style="font-size:14px;color:var(--text-secondary)">Admin only. Resets a player's balance to zero.</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--admin-code-bg);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--admin-code-text)">/bank debt_list</code><span style="font-size:14px;color:var(--text-secondary)">Admin only. Shows all recorded balances, highest to lowest.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="admin" style="scroll-margin-top:78px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px"><h2 style="font-size:26px;color:var(--text-primary);font-weight:600">Admin</h2><code style="background:var(--chip-bg);color:var(--chip-text);font-size:13px;padding:3px 9px;border-radius:5px">/admin</code></div>
+      <p style="color:var(--text-secondary);font-size:15px;line-height:1.6;max-width:70ch;margin-bottom:6px">Guild-wide configuration. All commands require the Administrator permission and are run once per server; responses are ephemeral.</p>
+
+      <sc-if value="{{ showAdminNotes }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--callout-bg);border-radius:8px;padding:14px 18px;margin:14px 0 6px;font-size:13.5px;color:var(--callout-text);max-width:70ch">Changes to reminder/expiry only apply to timers started <strong>after</strong> the change — running timers keep their original settings.</div>
+      </sc-if>
+
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px;margin-top:14px">
+        <div style="font-size:12px;font-weight:600;color:var(--text-secondary);letter-spacing:1px;margin-bottom:12px">COMMANDS</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/admin set_default_tax &lt;0–100&gt;</code><span style="font-size:14px;color:var(--text-secondary)">Sets the default tax rate for loot splits — pre-fills the Calculate button. e.g. <code style="font-size:12.5px">35</code> means 35%.</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/admin set_reminder &lt;hours&gt;</code><span style="font-size:14px;color:var(--text-secondary)">1–168h, must be less than expiry. Default: 24h.</span></div>
+          <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap"><code style="background:var(--code-bg-strong);padding:4px 10px;border-radius:5px;font-size:13.5px;color:var(--text-primary)">/admin set_expiry &lt;hours&gt;</code><span style="font-size:14px;color:var(--text-secondary)">1–168h, must be greater than reminder. Default: 48h.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="permissions" style="scroll-margin-top:78px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px"><h2 style="font-size:26px;color:var(--text-primary);font-weight:600">Permissions</h2></div>
+      <p style="color:var(--text-secondary);font-size:15px;line-height:1.6;max-width:70ch;margin-bottom:20px">By default, most commands are open to any server member. Discord's own Integrations settings let admins restrict or grant access per command, by role, user, or channel — on top of whatever the bot itself checks.</p>
+
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px;margin-bottom:16px">
+        <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:10px">Getting there</div>
+        <p style="font-size:14px;color:var(--text-body);margin:0">Server Settings → Integrations → find Tacklebox → <strong>Manage</strong>. You'll see every registered command with its own toggle — default is all members allowed.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="tb-flowgrid">
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px">
+          <div style="font-size:13px;font-weight:600;color:var(--flow-player);margin-bottom:12px">RESTRICT /party TO OFFICERS</div>
+          <ol style="margin:0;padding-left:18px;color:var(--text-body);font-size:14px;line-height:1.85">
+            <li>Find <strong>party</strong> in the bot's command list.</li>
+            <li>Toggle off <strong>@everyone</strong>.</li>
+            <li>Add roles or members → select your officer role.</li>
+            <li>Toggle that role on, then save.</li>
+          </ol>
+        </div>
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px">
+          <div style="font-size:13px;font-weight:600;color:var(--chip-text);margin-bottom:12px">EXPOSE /admin TO A CO-ADMIN ROLE</div>
+          <ol style="margin:0;padding-left:18px;color:var(--text-body);font-size:14px;line-height:1.85">
+            <li>Find <strong>admin</strong> in the bot's command list.</li>
+            <li>Toggle off @everyone, add your trusted non-Administrator role.</li>
+            <li>The bot still rejects <code style="font-size:12.5px">/admin</code> from anyone lacking real Administrator permission — Discord toggles and bot checks are independent layers.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div style="background:#0F262D;padding:44px 24px">
+  <div style="max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px">
+    <span style="color:#7FA3AB;font-size:13px">Need more help? Join the support server.</span>
+    <div style="display:flex;gap:24px;align-items:center">
+      <a href="Tacklebox Landing.dc.html" style="color:#B9CBCF;font-size:13px">← Back home</a>
+      <a href="{{ supportUrl }}" target="_blank" rel="noopener" style="color:#B9CBCF;font-size:13px">Support server</a>
+      <a href="{{ inviteUrl }}" target="_blank" rel="noopener" style="color:#B9CBCF;font-size:13px">Add to Discord</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  @media (max-width: 860px){
+    .tb-layout{grid-template-columns:1fr !important}
+    .tb-sidebar{position:static !important;flex-direction:row !important;flex-wrap:wrap;gap:8px !important}
+    .tb-flowgrid{grid-template-columns:1fr !important}
+  }
+</style>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1200},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#D89B3C&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#D89B3C&quot;,&quot;#C97B4A&quot;,&quot;#7FA3AB&quot;,&quot;#B2812F&quot;]},&quot;showAdminNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { activeSection: 'party', lootChecklistOpen: false, partySheetOpen: false };
+
+  componentDidMount() {
+    const ids = ['party', 'loot', 'regear', 'clock', 'bank', 'admin', 'permissions'];
+    this._observer = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) this.setState({ activeSection: e.target.id }); });
+    }, { root: null, rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) this._observer.observe(el);
+    });
+  }
+
+  componentWillUnmount() {
+    if (this._observer) this._observer.disconnect();
+  }
+
+  renderVals() {
+    const accentColor = this.props.accentColor ?? '#D89B3C';
+    const ids = ['party', 'loot', 'regear', 'clock', 'bank', 'admin', 'permissions'];
+    const base = 'display:block;padding:9px 14px;border-radius:6px;font-size:13.5px;font-weight:500;';
+    const activeStyle = base + `background:${accentColor};color:#16323B;`;
+    const inactiveStyle = base + 'background:transparent;color:var(--text-secondary);';
+    const navStyle = {};
+    ids.forEach((id) => { navStyle[id] = this.state.activeSection === id ? activeStyle : inactiveStyle; });
+
+    return {
+      accentColor,
+      showAdminNotes: this.props.showAdminNotes ?? true,
+      inviteUrl: 'https://discord.com/oauth2/authorize?client_id=1448447132393672807',
+      supportUrl: 'https://discord.gg/A56K9EgxMj',
+      navStyle,
+      lootChecklistOpen: this.state.lootChecklistOpen,
+      lootChecklistArrow: this.state.lootChecklistOpen ? '▾' : '▸',
+      toggleLootChecklist: () => this.setState((s) => ({ lootChecklistOpen: !s.lootChecklistOpen })),
+      partySheetOpen: this.state.partySheetOpen,
+      partySheetArrow: this.state.partySheetOpen ? '▾' : '▸',
+      togglePartySheet: () => this.setState((s) => ({ partySheetOpen: !s.partySheetOpen })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
