@@ -420,7 +420,7 @@ body.tb-commands .tb-topnav .tb-btn-invite { box-shadow: none; }
 .tb-band .tb-deepdive-lead code { background: rgba(255, 255, 255, 0.08); color: var(--paper); }
 .tb-band .tb-tabs { background: rgba(255, 255, 255, 0.06); }
 .tb-band .tb-tab { color: #B9CBCF; }
-.tb-band .tb-tab.is-active { background: var(--accent); color: var(--paper); }
+.tb-band .tb-tab.is-active { background: var(--accent); color: var(--ink); }
 .tb-band .tb-flowlist { color: #D8E4E6; }
 .tb-band .tb-flowlist strong { color: var(--paper); }
 .tb-band .tb-flowlist code { background: rgba(255, 255, 255, 0.08); color: inherit; }
