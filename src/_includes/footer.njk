@@ -1,0 +1,22 @@
+<footer class="tb-footer">
+  <div class="tb-footer-inner">
+    {% if navVariant == "commands" %}
+    <span class="tb-footer-note">Need more help? Join the support server.</span>
+    <div class="tb-footer-links">
+      <a href="{{ '/' | url }}">← Back home</a>
+      <a href="{{ site.supportUrl }}" target="_blank" rel="noopener">Support server</a>
+      <a href="{{ site.inviteUrl }}" target="_blank" rel="noopener">Add to Discord</a>
+    </div>
+    {% else %}
+    <div class="tb-footer-beta">
+      {% include "logo-mark.njk" %}
+      <span>Tacklebox is currently in beta — expect the occasional rough edge.</span>
+    </div>
+    <div class="tb-footer-links">
+      <a href="{{ '/commands/' | url }}">Commands</a>
+      <a href="{{ site.supportUrl }}" target="_blank" rel="noopener">Support server</a>
+      <a href="{{ site.inviteUrl }}" target="_blank" rel="noopener">Add to Discord</a>
+    </div>
+    {% endif %}
+  </div>
+</footer>

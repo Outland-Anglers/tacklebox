@@ -1,0 +1,23 @@
+<header class="tb-topnav">
+  <div class="tb-topnav-inner">
+    {% if navVariant == "commands" %}
+    <a href="{{ '/' | url }}" class="tb-brand">
+      {% include "logo-mark.njk" %}
+      <span class="tb-brand-name">TACKLEBOX</span>
+      <span class="tb-brand-crumb">/ Commands</span>
+    </a>
+    {% else %}
+    <div class="tb-brand">
+      {% include "logo-mark.njk" %}
+      <span class="tb-brand-name">TACKLEBOX</span>
+    </div>
+    <nav class="tb-navlinks">
+      <a href="#features">Features</a>
+      <a href="#party-manager">Party Manager</a>
+      <a href="#loot-split">Loot Split</a>
+      <a href="{{ '/commands/' | url }}">Commands</a>
+    </nav>
+    {% endif %}
+    <a href="{{ site.inviteUrl }}" target="_blank" rel="noopener" class="tb-btn tb-btn-invite">{{ site.inviteLabel }}</a>
+  </div>
+</header>

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <meta name="description" content="Tacklebox — a free Discord bot for Albion Online guilds: party sign-ups, loot splits, regear timers, and more.">
+  <link rel="stylesheet" href="{{ '/css/fonts.css' | url }}">
+  <link rel="stylesheet" href="{{ '/css/site.css' | url }}">
+</head>
+<body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+  {% include "nav.njk" %}
+  {{ content | safe }}
+  {% include "footer.njk" %}
+  <script src="{{ '/js/site.js' | url }}" defer></script>
+</body>
+</html>
