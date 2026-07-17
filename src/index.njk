@@ -1,6 +1,149 @@
 ---
-title: Tacklebox
+title: "Tacklebox — party sign-ups, loot splits & regear timers for Albion guilds"
 layout: base.njk
 navVariant: landing
+bodyClass: page-landing
 ---
-<p>stub — replaced in Task 5</p>
+{% macro botframe(shotHeight) %}
+<div class="tb-botframe">
+  <div class="tb-botframe-head">
+    <span class="tb-botframe-avatar">{% include "logo-mark.njk" %}</span>
+    <span class="tb-botframe-name">Tacklebox</span>
+    <span class="tb-botframe-tag">BOT</span>
+  </div>
+  <div class="tb-shot" style="--shot-h: {{ shotHeight }}px">
+    <img src="{{ '/img/placeholder-shot.svg' | url }}" alt="" width="640" height="{{ shotHeight }}">
+    <span class="tb-shot-label">Screenshot coming soon</span>
+  </div>
+</div>
+{% endmacro %}
+
+<div class="tb-hero">
+  <div>
+    <div class="tb-chip">FOR ALBION ONLINE GUILDS</div>
+    <h1>Party sign-ups, loot splits, and regear timers — everything your officers do by hand, now running itself.</h1>
+    <p class="tb-hero-sub">Tacklebox drops into your guild's Discord and handles the busywork: running party sign-ups off a Google Sheet, splitting silver after a fight, chasing regears, and keeping every officer on the same tax rate. Free, no gate, built by guildies tired of doing math in voice chat.</p>
+    <div class="tb-hero-ctas">
+      <a href="{{ site.inviteUrl }}" target="_blank" rel="noopener" class="tb-btn tb-btn-invite">{{ site.inviteLabel }}</a>
+      <a href="{{ '/commands/' | url }}" class="tb-btn tb-btn-outline">Browse the commands</a>
+    </div>
+    <p class="tb-hero-perms">Requires Manage Channels, Manage Threads &amp; Connect permissions — Discord will ask on invite.</p>
+  </div>
+
+  <div>
+    {{ botframe(220) }}
+  </div>
+</div>
+
+<div id="features" class="tb-features">
+  <h2 class="tb-kicker">EVERYTHING YOUR OFFICERS ARE CURRENTLY DOING BY HAND</h2>
+  <h3>Six commands, one guild-wide ruleset</h3>
+  <div class="tb-grid">
+
+    <a href="{{ '/commands/' | url }}#party" class="tb-card">
+      <svg class="tb-card-icon" width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="14" fill="var(--chip-bg)"/><circle cx="13" cy="15" r="3" fill="var(--chip-text)"/><circle cx="23" cy="15" r="3" fill="var(--chip-text)"/><circle cx="18" cy="23" r="3" fill="var(--chip-text)"/></svg>
+      <h4>Party Manager</h4>
+      <p>Sign-ups run off a Google Sheet. Members pick a weapon, officers assign roles, everyone pulls up their loadout without leaving Discord.</p>
+    </a>
+
+    <a href="{{ '/commands/' | url }}#loot" class="tb-card">
+      <svg class="tb-card-icon" width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="14" fill="var(--chip-bg)"/><circle cx="18" cy="18" r="8" stroke="var(--chip-text)" stroke-width="1.6"/><line x1="18" y1="12" x2="18" y2="24" stroke="var(--chip-text)" stroke-width="1.6"/></svg>
+      <h4>Loot Split</h4>
+      <p>React to join, officers adjust the list, Tacklebox splits the silver after tax and repairs — no more screenshotting a calculator.</p>
+    </a>
+
+    <a href="{{ '/commands/' | url }}#regear" class="tb-card">
+      <svg class="tb-card-icon" width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="14" fill="var(--chip-bg)"/><path d="M13 12L18 18L23 12" stroke="var(--chip-text)" stroke-width="1.6" fill="none"/><path d="M13 24L18 18L23 24" stroke="var(--chip-text)" stroke-width="1.6" fill="none"/></svg>
+      <h4>Regear Timer</h4>
+      <p>Start a timer, tag the chest number, and Tacklebox chases the reminder so gear doesn't sit forgotten in storage.</p>
+    </a>
+
+    <a href="{{ '/commands/' | url }}#clock" class="tb-card">
+      <svg class="tb-card-icon" width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="14" fill="var(--chip-bg)"/><circle cx="18" cy="18" r="9" stroke="var(--chip-text)" stroke-width="1.6"/><line x1="18" y1="18" x2="18" y2="13" stroke="var(--chip-text)" stroke-width="1.6" stroke-linecap="round"/><line x1="18" y1="18" x2="22" y2="20" stroke="var(--chip-text)" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <h4>World Clock</h4>
+      <p>Voice channels that show the time in every zone your guild plays from, ticking over automatically so nobody misses a call.</p>
+    </a>
+
+    <a href="{{ '/commands/' | url }}#bank" class="tb-card">
+      <svg class="tb-card-icon" width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="14" fill="var(--chip-bg)"/><rect x="11" y="13" width="14" height="11" rx="1.5" stroke="var(--chip-text)" stroke-width="1.6"/><circle cx="18" cy="18.5" r="2.4" stroke="var(--chip-text)" stroke-width="1.6"/></svg>
+      <h4>Bank</h4>
+      <p>A running silver ledger per player — balances, payouts, and a debt list so officers know exactly who still owes the guild.</p>
+    </a>
+
+    <a href="{{ '/commands/' | url }}#admin" class="tb-card">
+      <svg class="tb-card-icon" width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="14" fill="var(--chip-bg)"/><path d="M18 11L24 13.5V18C24 21.5 21.5 23.8 18 25C14.5 23.8 12 21.5 12 18V13.5L18 11Z" stroke="var(--chip-text)" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      <h4>Admin</h4>
+      <p>Set the default tax rate and regear windows once. Every officer running a command plays by the same guild-wide rules.</p>
+    </a>
+
+  </div>
+</div>
+
+<div id="party-manager" class="tb-band">
+  <div class="tb-band-inner">
+    <div class="tb-deepdive">
+      <div>
+        <div class="tb-feature-num">FEATURE 01</div>
+        <h3>Party Manager</h3>
+        <p class="tb-deepdive-lead">Officers point <code>/party start</code> at a Google Sheet, and the roster lives there. Members sign up for weapons on the embed, officers paste assignments into the sheet, hit Sync, and Discord updates automatically — loadouts included.</p>
+
+        <div class="tb-tabs" data-tabs>
+          <button type="button" class="tb-tab is-active" data-tab-target="player">Player Flow</button>
+          <button type="button" class="tb-tab" data-tab-target="officer">Officer Flow</button>
+        </div>
+
+        <ol class="tb-flowlist" data-tab-panel="player">
+          <li>Click <strong>Sign Up</strong>, pick the weapon(s) you can play, and leave a note if you need one — low spec, early leave, whatever officers should know.</li>
+          <li>Click Sign Up again any time to change your selection.</li>
+          <li>Click <strong>Un-Sign Up</strong> to pull yourself from the sheet and the party entirely.</li>
+          <li>Once officers sync, click <strong>View Loadout</strong> to see your assigned weapon and required gear.</li>
+        </ol>
+        <ol class="tb-flowlist" data-tab-panel="officer" hidden>
+          <li>Run <code>/party start &lt;sheet URL&gt;</code> — share the sheet with the bot's service account as Editor first.</li>
+          <li>Click <strong>Add Details</strong> to set the event title, UTC time, meeting place, and gear requirements.</li>
+          <li>Copy signups from Column A into Column F next to their assigned weapon, then click <strong>Sync</strong>.</li>
+          <li>Click <strong>End Party</strong> to close signups — parties auto-expire after 10 days, capped at 10 active per server.</li>
+        </ol>
+      </div>
+
+      {{ botframe(240) }}
+    </div>
+  </div>
+</div>
+
+<div id="loot-split" class="tb-band-light">
+  <div class="tb-band-inner">
+    <div class="tb-deepdive tb-deepdive-alt">
+      <div>
+        <div class="tb-feature-num">FEATURE 02</div>
+        <h3>Loot Split</h3>
+        <p class="tb-deepdive-lead">Run <code>/loot start</code> after a fight and Tacklebox posts a message members react to join. Officers can add AFK players, exclude anyone who shouldn't be there, then hit Calculate — Tacklebox works out repairs, tax, and each player's cut, and drops a payout checklist your officers (or players, if you allow it) can check off.</p>
+
+        <div class="tb-tabs" data-tabs>
+          <button type="button" class="tb-tab" data-tab-target="player">Player Flow</button>
+          <button type="button" class="tb-tab is-active" data-tab-target="officer">Officer Flow</button>
+        </div>
+
+        <ol class="tb-flowlist" data-tab-panel="player" hidden>
+          <li>React with any emoji to join the split — one reaction counts, no matter which emoji.</li>
+          <li>Excluded by an officer override? You won't appear on the payout checklist, even if you reacted.</li>
+          <li>If self-marking is enabled, click <strong>Mark Myself Paid</strong> once you've been paid.</li>
+        </ol>
+        <ol class="tb-flowlist" data-tab-panel="officer">
+          <li>Run <code>/loot start</code> — optionally set a voice channel for the Ping button, or override the guild's tax rate.</li>
+          <li>Use <strong>Player Override</strong> to add AFK players or exclude anyone — up to 40 users per list.</li>
+          <li>Click <strong>Calculate</strong> and enter Total Silver, Repair Cost, and Tax Rate (pre-filled with the guild default, 35% unless changed).</li>
+          <li>Work the payout checklist — mark players paid, bank the unpaid, or allow self-marking. Buttons stop responding after 1 hour.</li>
+        </ol>
+      </div>
+
+      {{ botframe(320) }}
+    </div>
+  </div>
+</div>
+
+<div class="tb-cta">
+  <h3>Full command reference, officer flows, and setup notes</h3>
+  <p>Every command across Party, Loot, Regear, Clock, Bank and Admin — written for whoever's actually running them.</p>
+  <a href="{{ '/commands/' | url }}" class="tb-btn tb-btn-invite">Open the commands page →</a>
+</div>

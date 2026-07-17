@@ -239,19 +239,31 @@ body.tb-commands .tb-topnav .tb-btn-invite { box-shadow: none; }
   text-align: center;
 }
 /* Placeholder screenshot panel (Landing:70-72 wrapper; image-slot swapped for
-   a static placeholder in production). Task 5 sets height per instance. */
+   a static placeholder in production). Each instance sets --shot-h inline. */
 .tb-shot {
+  position: relative;
   border-radius: 6px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.04);
-  min-height: 220px;
+  height: var(--shot-h, 220px);
+}
+.tb-shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tb-shot-label {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px;
   color: #8FAAB0;
-  font-size: 12px;
+  font-size: 11.5px;
   text-align: center;
+  pointer-events: none;
 }
 
 /* --------------------------------------------------------------------------
