@@ -669,6 +669,26 @@ body.tb-commands .tb-topnav .tb-btn-invite { box-shadow: none; }
 }
 .tb-flowcard ol code { font-size: 12.5px; }
 
+/* "Getting there" info box (Commands:250-253) */
+.tb-infocard {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+}
+.tb-infocard-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+.tb-infocard p {
+  font-size: 14px;
+  color: var(--text-body);
+  margin: 0;
+}
+
 /* Callout (Commands:233) */
 .tb-callout {
   background: var(--callout-bg);
