@@ -1,0 +1,13 @@
+{
+  "name": "tacklebox-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Landing page and docs site for the Tacklebox Discord bot",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}
