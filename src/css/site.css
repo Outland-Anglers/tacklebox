@@ -1,0 +1,719 @@
+/* ==========================================================================
+   Tacklebox site — design system
+   Extracted from design-reference/*.dc.html (prototype inline styles).
+   Every color/size below traces back to a prototype inline style.
+   Organized: foundation -> nav -> hero -> bot-frame -> features -> deep-dives
+   -> CTA -> footer -> commands layout -> responsive.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Foundation — tokens + element defaults
+   (union of Tacklebox Landing.dc.html:14-31 and Tacklebox Commands.dc.html:14-35)
+   -------------------------------------------------------------------------- */
+:root {
+  --page-bg: #F7F4EC; --card-bg: #FFFFFF; --card-border: #E8E1D2;
+  --text-primary: #16323B; --text-secondary: #5B6668;
+  --chip-bg: #EAE2D2; --chip-text: #7A5A22;
+  --code-bg: #F7F4EC; --code-bg-strong: #EAE2D2; --code-bg-soft: #F7F4EC;
+  --admin-code-bg: #F0E6D3; --admin-code-text: #7A5A22;
+  --callout-bg: #F0E6D3; --callout-text: #7A5A22;
+  --text-body: #3E4C4F; --flow-player: #2F5F6E;
+  --accent: #D89B3C; --ink: #16323B; --paper: #F7F4EC;
+  --band-dark: #16323B; --band-darker: #0F262D; --panel-dark: #1F3F49;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page-bg: #10191C; --card-bg: #182428; --card-border: #28393D;
+    --text-primary: #F0EBDF; --text-secondary: #A6B4B6;
+    --chip-bg: #23343A; --chip-text: #E0AE5C;
+    --code-bg: #1B2A2E; --code-bg-strong: #23343A; --code-bg-soft: #1B2A2E;
+    --admin-code-bg: #2A2318; --admin-code-text: #E0AE5C;
+    --callout-bg: #2A2318; --callout-text: #E0AE5C;
+    --text-body: #C9D3D4; --flow-player: #7FB8C4;
+  }
+}
+body {
+  margin: 0;
+  background: var(--page-bg);
+  font-family: "Work Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+html { scroll-behavior: smooth; }
+a { color: #2F5F6E; text-decoration: none; }
+a:hover { color: var(--accent); }
+h1, h2, h3, h4 { font-family: "Oswald", system-ui, sans-serif; margin: 0; }
+code { font-family: "JetBrains Mono", monospace; }
+::selection { background: var(--accent); color: var(--ink); }
+
+/* Reset added for production (prototype ran under support.js's own reset):
+   border-box keeps padding inside the max-width containers, matching the
+   prototype's rendered layout. Not a visual value — layout math only. */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Page-scoped container width. Landing containers are 1180px, Commands
+   containers are 1240px. The commands page sets bodyClass "tb-commands"
+   (base.njk applies it to <body>) which bumps --nav-max to 1240px. */
+body.tb-commands { --nav-max: 1240px; }
+
+/* --------------------------------------------------------------------------
+   Nav  (Landing:34-48, Commands:38-47)
+   -------------------------------------------------------------------------- */
+.tb-topnav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--band-dark);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.tb-topnav-inner {
+  max-width: var(--nav-max, 1180px);
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.tb-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tb-brand-name {
+  font-family: "Oswald", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  color: #F7F4EC;
+  letter-spacing: 0.5px;
+}
+.tb-brand-crumb {
+  color: #7FA3AB;
+  font-size: 13px;
+  font-weight: 500;
+}
+/* Commands nav is slightly smaller (Commands:41-42): 26px mark, 17px wordmark */
+body.tb-commands .tb-brand-name { font-size: 17px; }
+body.tb-commands .tb-brand svg { width: 26px; height: 26px; }
+
+.tb-navlinks {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.tb-navlinks a {
+  color: #CFE0E4;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Buttons -------------------------------------------------------------------
+   .tb-btn  = shared button chrome
+   .tb-btn-invite  = accent fill (nav size by default; hero/CTA rescale below)
+   .tb-btn-outline = bordered secondary (hero) */
+.tb-btn {
+  display: inline-block;
+  font-weight: 600;
+  line-height: 1;
+  border: none;
+  border-radius: 6px;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+}
+.tb-btn-invite {
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: 6px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+/* Commands nav invite has no drop shadow (Commands:45) */
+body.tb-commands .tb-topnav .tb-btn-invite { box-shadow: none; }
+.tb-btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--text-primary);
+  color: var(--text-primary);
+  font-size: 16px;
+  padding: 14px 26px;
+  border-radius: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   Landing hero  (Landing:50-60)
+   -------------------------------------------------------------------------- */
+.tb-hero {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 88px 24px 64px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+}
+.tb-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.tb-hero h1 {
+  font-size: 52px;
+  line-height: 1.06;
+  color: var(--text-primary);
+  font-weight: 700;
+  text-wrap: balance;
+}
+.tb-hero-sub {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 22px 0 30px;
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+.tb-hero-ctas {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+/* Hero CTAs are the large button size (Landing:56-57) */
+.tb-hero-ctas .tb-btn {
+  font-size: 16px;
+  padding: 14px 26px;
+  border-radius: 8px;
+}
+.tb-hero-ctas .tb-btn-invite { box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18); }
+.tb-hero-perms {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Bot frame  (Landing hero mock:62-74; reused in deep-dives:152-162,171-181)
+   -------------------------------------------------------------------------- */
+.tb-botframe {
+  background: var(--panel-dark);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 20px 50px rgba(22, 50, 59, 0.35);
+}
+.tb-botframe-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.tb-botframe-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #427483;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tb-botframe-name {
+  color: #F7F4EC;
+  font-weight: 600;
+  font-size: 14px;
+}
+.tb-botframe-tag {
+  font-size: 10px;
+  color: #9FB4B9;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+.tb-botframe-caption {
+  color: #8FAAB0;
+  font-size: 11.5px;
+  margin: 10px 0 0;
+  text-align: center;
+}
+/* Placeholder screenshot panel (Landing:70-72 wrapper; image-slot swapped for
+   a static placeholder in production). Task 5 sets height per instance. */
+.tb-shot {
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  color: #8FAAB0;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Feature grid  (Landing:77-118)
+   -------------------------------------------------------------------------- */
+.tb-features {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 24px 90px;
+}
+.tb-kicker {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.tb-features h3 {
+  font-size: 32px;
+  color: var(--text-primary);
+  margin-bottom: 36px;
+  font-weight: 600;
+}
+.tb-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.tb-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 26px;
+  display: block;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.tb-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+.tb-card-icon {
+  display: block;
+  margin-bottom: 14px;
+}
+.tb-card h4 {
+  font-size: 18px;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.tb-card p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Deep-dives  (Landing:121-212)
+   Two sections share this vocabulary:
+     - Party Manager sits in a dark band  (.tb-band, Landing:121)
+     - Loot Split sits on the page bg      (.tb-band-light, Landing:167)
+   Base rules are the light-context values; .tb-band ... overrides give the
+   dark-context colors so both render exactly as the prototype.
+   -------------------------------------------------------------------------- */
+.tb-band {
+  background: var(--band-dark);
+  padding: 80px 24px;
+}
+.tb-band-light {
+  background: var(--page-bg);
+  padding: 80px 24px;
+}
+.tb-band-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.tb-deepdive {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr; /* Party (Landing:123) */
+  gap: 56px;
+  align-items: start;
+}
+/* Loot Split flips the column ratio (Landing:169) */
+.tb-deepdive-alt { grid-template-columns: 1.05fr 0.95fr; }
+
+.tb-feature-num {
+  color: var(--chip-text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+.tb-deepdive h3 {
+  font-size: 34px;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.tb-deepdive-lead {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+.tb-deepdive-lead code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--text-primary);
+}
+.tb-tabs {
+  display: inline-flex;
+  background: var(--chip-bg);
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 22px;
+}
+.tb-tab {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  font-family: "Work Sans", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.tb-tab.is-active {
+  background: var(--accent);
+  color: var(--ink);
+}
+.tb-flowlist {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.9;
+  padding-left: 20px;
+  margin: 0;
+}
+.tb-flowlist strong { color: var(--text-primary); }
+.tb-flowlist code {
+  background: var(--code-bg);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--text-primary);
+}
+
+/* Dark-band scoped overrides (Party Manager, Landing:121-165) */
+.tb-band .tb-feature-num { color: #7FA3AB; }
+.tb-band .tb-deepdive h3 { color: var(--paper); }
+.tb-band .tb-deepdive-lead { color: #B9CBCF; }
+.tb-band .tb-deepdive-lead code { background: rgba(255, 255, 255, 0.08); color: var(--paper); }
+.tb-band .tb-tabs { background: rgba(255, 255, 255, 0.06); }
+.tb-band .tb-tab { color: #B9CBCF; }
+.tb-band .tb-tab.is-active { background: var(--accent); color: var(--paper); }
+.tb-band .tb-flowlist { color: #D8E4E6; }
+.tb-band .tb-flowlist strong { color: var(--paper); }
+.tb-band .tb-flowlist code { background: rgba(255, 255, 255, 0.08); color: inherit; }
+
+/* --------------------------------------------------------------------------
+   CTA band  (Landing:214-218)
+   -------------------------------------------------------------------------- */
+.tb-cta {
+  background: var(--band-dark);
+  padding: 70px 24px;
+  text-align: center;
+}
+.tb-cta h3 {
+  font-size: 30px;
+  color: var(--paper);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.tb-cta p {
+  color: #B9CBCF;
+  font-size: 16px;
+  margin-bottom: 26px;
+}
+.tb-cta .tb-btn-invite {
+  font-size: 16px;
+  padding: 14px 28px;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Footer  (Landing:220-232, Commands:279-288)
+   -------------------------------------------------------------------------- */
+.tb-footer {
+  background: var(--band-darker);
+  padding: 44px 24px;
+}
+.tb-footer-inner {
+  max-width: var(--nav-max, 1180px);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.tb-footer-beta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tb-footer-beta span {
+  color: #7FA3AB;
+  font-size: 13px;
+}
+/* Footer logo mark is smaller and muted (Landing:223) */
+.tb-footer-beta svg { width: 22px; height: 22px; }
+.tb-footer-beta svg circle,
+.tb-footer-beta svg path { stroke: #7FA3AB; }
+.tb-footer-note {
+  color: #7FA3AB;
+  font-size: 13px;
+}
+.tb-footer-links {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.tb-footer-links a {
+  color: #B9CBCF;
+  font-size: 13px;
+}
+
+/* --------------------------------------------------------------------------
+   Commands layout  (Commands:49-277)
+   -------------------------------------------------------------------------- */
+.tb-layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 40px 24px 100px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.tb-sidebar {
+  position: sticky;
+  top: 78px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.tb-sidebar a {
+  display: block;
+  padding: 9px 14px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
+  background: transparent;
+  color: var(--text-secondary);
+}
+.tb-sidebar a.is-active {
+  background: var(--accent);
+  color: var(--ink);
+}
+
+/* Main documentation column (Commands:61) */
+.tb-cmdmain {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  min-width: 0;
+}
+
+/* Page intro (Commands:63-66) */
+.tb-cmdintro h1 {
+  font-size: 38px;
+  color: var(--text-primary);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.tb-cmdintro p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 60ch;
+  line-height: 1.6;
+}
+.tb-cmdintro code {
+  background: var(--code-bg-strong);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Command section (Commands:68) */
+.tb-cmdsection { scroll-margin-top: 78px; }
+.tb-cmdtitle {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.tb-cmdtitle h2 {
+  font-size: 26px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.tb-slashchip {
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  font-size: 13px;
+  padding: 3px 9px;
+  border-radius: 5px;
+}
+.tb-cmddesc {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 70ch;
+  margin-bottom: 20px;
+}
+/* "Administrator permission required" note (Commands:199) */
+.tb-cmd-adminreq {
+  color: var(--chip-text);
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* COMMANDS box (Commands:72-75) */
+.tb-cmdcard {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+}
+.tb-cmdcard-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.tb-cmdrows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tb-cmdrow {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.tb-cmdrow span {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.tb-cmdrow span code { font-size: 12.5px; }
+.tb-cmdcode {
+  background: var(--code-bg-strong);
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 13.5px;
+  color: var(--text-primary);
+}
+.tb-cmdcode-admin {
+  background: var(--admin-code-bg);
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 13.5px;
+  color: var(--admin-code-text);
+}
+
+/* Player/Officer flow grid (Commands:77-97) */
+.tb-flowgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.tb-flowcard {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 20px 22px;
+}
+.tb-flowlabel-player {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--flow-player);
+  margin-bottom: 12px;
+}
+.tb-flowlabel-officer {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--chip-text);
+  margin-bottom: 12px;
+}
+.tb-flowcard ol {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-body);
+  font-size: 14px;
+  line-height: 1.85;
+}
+.tb-flowcard ol code { font-size: 12.5px; }
+
+/* Callout (Commands:233) */
+.tb-callout {
+  background: var(--callout-bg);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 14px 0 6px;
+  font-size: 13.5px;
+  color: var(--callout-text);
+  max-width: 70ch;
+}
+
+/* Collapsible details (Commands:99-111 button + panel, rebuilt as <details>).
+   Summary mimics the prototype's ▸ / ▾ toggle button. */
+.tb-details {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  font-size: 14px;
+  color: var(--text-body);
+  line-height: 1.75;
+}
+.tb-details > summary {
+  list-style: none;
+  color: var(--flow-player);
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tb-details > summary::-webkit-details-marker { display: none; }
+.tb-details > summary::before {
+  content: "\25B8"; /* ▸ */
+  display: inline-block;
+}
+.tb-details[open] > summary::before { content: "\25BE"; /* ▾ */ }
+.tb-details-body {
+  margin-top: 12px;
+}
+.tb-details-body p { margin: 0 0 10px; }
+.tb-details-body p:last-child { margin-bottom: 0; }
+.tb-details-body code { font-size: 12.5px; }
+
+/* --------------------------------------------------------------------------
+   Responsive  (Landing:234-245, Commands:290-296)
+   -------------------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .tb-navlinks { display: none; }
+  .tb-grid { grid-template-columns: 1fr 1fr; }
+  .tb-deepdive, .tb-hero { grid-template-columns: 1fr; }
+  .tb-deepdive .tb-botframe { order: -1; }
+  .tb-layout { grid-template-columns: 1fr; }
+  .tb-sidebar { position: static; flex-direction: row; flex-wrap: wrap; gap: 8px; }
+  .tb-flowgrid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .tb-grid { grid-template-columns: 1fr; }
+}
