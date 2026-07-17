@@ -1,7 +1,7 @@
 # Tacklebox
 
-Landing page and docs site for the Tacklebox Discord bot, published via GitHub Pages
-from the root of `main`.
+Landing page and docs site for the Tacklebox Discord bot, published via GitHub Pages,
+built by 11ty and deployed via GitHub Actions on push to `main`.
 
 ## Development
 
