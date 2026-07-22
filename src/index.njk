@@ -104,6 +104,18 @@ bodyClass: page-landing
           <li>Copy signups from Column A into Column F next to their assigned weapon, then click <strong>Sync</strong>.</li>
           <li>Click <strong>End Party</strong> to close signups — parties auto-expire after 10 days, capped at 10 active per server.</li>
         </ol>
+
+        <details class="tb-details">
+          <summary>Sheet setup &amp; column layout</summary>
+          <div class="tb-details-body">
+            <p>Copy the <a href="https://docs.google.com/spreadsheets/d/1b-jZ0mVhxWnB1H5FfGaDvcJO2D9vmJLrg5mQcMthyeY/edit?gid=0#gid=0" target="_blank" rel="noopener">sheet template</a> (File → Make a copy) and share it with the bot's service account — <code>tacklebox-bot@tacklebox-489703.iam.gserviceaccount.com</code> — as <strong>Editor</strong>.</p>
+            <p><strong>A–C</strong> — Player signups, written automatically. Don't edit.</p>
+            <p><strong>D</strong> — Role (Tank, Healer, DPS...). <strong>E</strong> — Weapon name, one per row.</p>
+            <p><strong>F</strong> — Assignments. Paste player names exactly as they appear in Column A.</p>
+            <p><strong>G+</strong> — Equipment loadout; header row names the slot, cells list required items. Shown to players via View Loadout.</p>
+            <p>⚠️ Don't rearrange or delete columns A–F — the bot reads fixed column positions.</p>
+          </div>
+        </details>
       </div>
 
       {{ botframe(240) }}
